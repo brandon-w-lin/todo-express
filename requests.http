@@ -1,0 +1,20 @@
+###
+GET http://localhost:3000/todos 
+###
+GET http://localhost:3000/todos/1
+###
+POST http://localhost:3000/todos
+Content-Type: application/json
+
+{
+  "description": "Get some money"
+}
+###
+PUT http://localhost:3000/todos/1
+Content-Type: application/json
+
+{
+  "description": "Get a fun job"
+}
+###
+DELETE http://localhost:3000/todos/1

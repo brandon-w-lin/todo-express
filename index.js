@@ -1,23 +1,18 @@
 const express = require("express");
 const app = express();
-// const pool = require("./service/db");
+
+// view engine setup
+const path = require("path");
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "jade");
 
 app.use(express.json());
 
+// Routers
 const indexRouter = require("./routes/index");
 app.use("/", indexRouter);
 const todoRouter = require("./routes/todos");
 app.use("/todos", todoRouter);
-
-// app.get("/todos", async (req, res) => {
-//   // console.log("arrived at todos index" + res);
-//   try {
-//     const todos = await pool.query("SELECT * FROM todo");
-//     res.json(todos.rows);
-//   } catch (err) {
-//     console.log(err.message);
-//   }
-// });
 
 app.listen(3000, () => {
   console.log("server is listening on port 3000");

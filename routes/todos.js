@@ -5,15 +5,11 @@ const Todo = require("../models/todo");
 
 // INDEX
 router.get("/", (req, res) => {
-  // res.send("hello");
   Todo.findAll()
     .then((todos) => {
-      console.log("received todos");
-
       res.status(200).send(todos);
     })
     .catch((err) => {
-      console.log("error");
       res.send(err);
     });
 });
@@ -26,9 +22,26 @@ router.post("/", (req, res) => {
       res.status(200).send(response);
     })
     .catch((err) => {
-      console.log("Error when creating new todo");
       res.send(err);
     });
+});
+
+// UPDATE
+router.patch("/:id", async (req, res) => {
+  try {
+    const todo = await Todo.findByPk(req.params.id);
+    const { completed, description } = req.body;
+    todo.set({
+      completed: completed === 0 ? completed : completed || todo.completed,
+      description: description || todo.description,
+    });
+    await todo.save();
+    console.log("update success");
+    res.send(todo);
+  } catch (err) {
+    console.log("update fail");
+    res.send(err);
+  }
 });
 
 // const pool = require("../service/db");

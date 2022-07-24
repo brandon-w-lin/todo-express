@@ -1,6 +1,9 @@
 CREATE DATABASE todo_database;
 
-CREATE TABLE todo(
-  todo_id SERIAL PRIMARY KEY,
-  description VARCHAR(255)
+CREATE TABLE todos (
+  id SERIAL PRIMARY KEY,
+  completed INTEGER,
+  description VARCHAR(255),
+  createdAt DATE,
+  updatedAt DATE
 );

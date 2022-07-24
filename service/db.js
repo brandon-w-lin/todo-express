@@ -12,7 +12,7 @@
 
 const os = require("os");
 
-const Sequelize = require("sequelize");
+const { Sequelize, DataTypes } = require("sequelize");
 
 //  sequelize = new Sequelize("<database>", "<username>", "<password>", {
 const sequelize = new Sequelize("todo_database", "brandon", "", {
@@ -39,7 +39,4 @@ sequelize
   .then(() => console.log("Database is connected"))
   .catch((error) => console.log("Error: " + error));
 
-module.exports = {
-  Sequelize,
-  sequelize,
-};
+module.exports = sequelize;

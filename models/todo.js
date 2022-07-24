@@ -3,6 +3,23 @@
 const db = require("../service/db"); // instance of Sequelize
 const { DataTypes } = require("sequelize");
 
+const Todo = db.define(
+  "todo",
+  {
+    id: { type: DataTypes.INTEGER, primaryKey: true },
+    completed: { type: DataTypes.INTEGER },
+    description: { type: DataTypes.STRING },
+  },
+  {
+    createdAt: "createdat",
+    updatedAt: "updatedat",
+    underscored: true,
+    // tableName: "creator",
+  }
+);
+
+module.exports = Todo;
+
 // module.exports = function (sequelize, DataTypes) {
 //   var Todo = db.define(
 //     "Todo",
@@ -22,20 +39,3 @@ const { DataTypes } = require("sequelize");
 
 //   return Todo;
 // };
-
-const Todo = db.define(
-  "todo",
-  {
-    // id: { type: DataTypes.INTEGER, primaryKey: true },
-    completed: { type: DataTypes.INTEGER },
-    description: { type: DataTypes.STRING },
-  },
-  {
-    createdAt: "createdat",
-    updatedAt: "updatedat",
-    underscored: true,
-    // tableName: "creator",
-  }
-);
-
-module.exports = Todo;

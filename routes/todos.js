@@ -44,6 +44,18 @@ router.patch("/:id", async (req, res) => {
   }
 });
 
+// DELETE
+router.delete("/:id", async (req, res) => {
+  try {
+    const todo = await Todo.findByPk(req.params.id);
+    await todo.destroy();
+    res.status(200).send("Destroyed successfully");
+    // redirect?
+  } catch (err) {
+    res.send(err);
+  }
+});
+
 // const pool = require("../service/db");
 
 // // INDEX

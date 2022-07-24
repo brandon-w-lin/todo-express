@@ -7,7 +7,7 @@ POST http://localhost:3000/todos
 Content-Type: application/json
 
 {
-  "description": "Get some money"
+  "description": "Get a job"
 }
 ###
 PUT http://localhost:3000/todos/1

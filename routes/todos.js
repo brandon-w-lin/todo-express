@@ -6,7 +6,7 @@ const Todo = require("../models/todo");
 // INDEX
 router.get("/", (req, res) => {
   // res.send("hello");
-  Todo.findAll({ attributes: ["id", "completed", "description"] })
+  Todo.findAll()
     .then((todos) => {
       console.log("received todos");
 
@@ -14,6 +14,19 @@ router.get("/", (req, res) => {
     })
     .catch((err) => {
       console.log("error");
+      res.send(err);
+    });
+});
+
+// CREATE
+router.post("/", (req, res) => {
+  const description = req.body.description;
+  Todo.create({ completed: 0, description: description })
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((err) => {
+      console.log("Error when creating new todo");
       res.send(err);
     });
 });

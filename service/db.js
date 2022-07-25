@@ -10,27 +10,19 @@
 
 // module.exports = pool;
 
+const config = require("../config/db.config");
 const os = require("os");
 
 const { Sequelize, DataTypes } = require("sequelize");
 
 //  sequelize = new Sequelize("<database>", "<username>", "<password>", {
-const sequelize = new Sequelize("todo_database", "brandon", "", {
-  host: "localhost",
-  dialect: "postgres",
+const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
+  host: config.HOST,
+  dialect: config.DIALECT,
   logging: null,
-  port: 5432,
-  pool: {
-    max: parseInt(120 / os.cpus().length),
-    min: 2,
-    idle: 10000,
-    acquire: 20000,
-  },
-  retry: {
-    match:
-      "SequelizeDatabaseError: could not serialize access due to concurrent update",
-    max: 3,
-  },
+  port: config.PORT,
+  pool: config.POOL,
+  retry: config.RETRY,
 });
 
 // Test connection
@@ -39,4 +31,24 @@ sequelize
   .then(() => console.log("Database is connected"))
   .catch((error) => console.log("Error: " + error));
 
-module.exports = sequelize;
+const db = {};
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+
+// For authentication
+db.user = require("../models/user.model.js")(sequelize, Sequelize);
+db.role = require("../models/role.model.js")(sequelize, Sequelize);
+
+db.role.belongsToMany(db.user, {
+  through: "user_roles",
+  foreignKey: "roleId",
+  otherKey: "userId",
+});
+db.user.belongsToMany(db.role, {
+  through: "user_roles",
+  foreignKey: "userId",
+  otherKey: "roleId",
+});
+
+db.ROLES = ["user", "admin", "moderator"];
+module.exports = db;

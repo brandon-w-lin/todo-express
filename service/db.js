@@ -11,7 +11,6 @@
 // module.exports = pool;
 
 const config = require("../config/db.config");
-const os = require("os");
 
 const { Sequelize, DataTypes } = require("sequelize");
 

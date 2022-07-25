@@ -1,3 +1,5 @@
+const os = require("os");
+
 module.exports = {
   HOST: "localhost",
   USER: "brandon",

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../service/db");
-const Todo = require("../models/todo");
+const Todo = require("../models/todo.model");
 
 // INDEX
 router.get("/", (req, res) => {

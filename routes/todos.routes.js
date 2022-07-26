@@ -1,59 +1,19 @@
 const express = require("express");
 const router = express.Router();
+const TodosController = require("../controllers/todos.controller");
 const Todo = global.db.Todo;
 
 // INDEX
-router.get("/", (req, res) => {
-  Todo.findAll()
-    .then((todos) => {
-      res.status(200).send(todos);
-    })
-    .catch((err) => {
-      res.send(err);
-    });
-});
+router.get("/", TodosController.index);
 
 // CREATE
-router.post("/", (req, res) => {
-  const description = req.body.description;
-  Todo.create({ completed: 0, description: description })
-    .then((response) => {
-      res.status(200).send(response);
-    })
-    .catch((err) => {
-      res.send(err);
-    });
-});
+router.post("/", TodosController.create);
 
 // UPDATE
-router.patch("/:id", async (req, res) => {
-  try {
-    const todo = await Todo.findByPk(req.params.id);
-    const { completed, description } = req.body;
-    todo.set({
-      completed: completed === 0 ? completed : completed || todo.completed,
-      description: description || todo.description,
-    });
-    await todo.save();
-    console.log("update success");
-    res.send(todo);
-  } catch (err) {
-    console.log("update fail");
-    res.send(err);
-  }
-});
+router.patch("/:id", TodosController.update);
 
 // DELETE
-router.delete("/:id", async (req, res) => {
-  try {
-    const todo = await Todo.findByPk(req.params.id);
-    await todo.destroy();
-    res.status(200).send("Destroyed successfully");
-    // redirect?
-  } catch (err) {
-    res.send(err);
-  }
-});
+router.delete("/:id", TodosController.destroy);
 
 // const pool = require("../service/db");
 

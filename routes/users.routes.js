@@ -28,7 +28,7 @@ router.post("/", (req, res) => {
   } else {
     User.create({ username: username, email: email, password: password })
       .then((response) => {
-        res.status(200).send(response);
+        res.status(201).send(response);
       })
       .catch((err) => {
         res.send(err);

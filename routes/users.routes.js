@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = global.db.User;
+const bcrypt = require("bcrypt");
 
 // INDEX
 // Admin only action
@@ -15,7 +16,7 @@ router.get("/", (req, res) => {
 });
 
 // CREATE
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   const username = req.body.username;
   const email = req.body.email;
   const password = req.body.password;
@@ -26,13 +27,44 @@ router.post("/", (req, res) => {
       .status(400)
       .send("Error: password and password_confirmation do not match.");
   } else {
-    User.create({ username: username, email: email, password: password })
-      .then((response) => {
-        res.status(201).send(response);
+    try {
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      User.create({
+        username: username,
+        email: email,
+        password: hashedPassword,
       })
-      .catch((err) => {
-        res.send(err);
-      });
+        .then((response) => {
+          res.status(201).send(response);
+        })
+        .catch((err) => {
+          res.send(err);
+        });
+    } catch {
+      res.status(500);
+    }
+  }
+});
+
+// LOGIN
+router.post("/login", async (req, res) => {
+  const user = await User.findOne({ where: { username: req.body.username } });
+  if (user === null) {
+    res.status(404).send("User not found");
+  } else if (req.body.password) {
+    try {
+      const match = await bcrypt.compare(req.body.password, user.password);
+      if (match) {
+        res.send("success");
+      } else {
+        res.status(400).send("Password was incorrect");
+      }
+    } catch (err) {
+      console.log("there was an error");
+      res.status(500).send(err);
+    }
+  } else {
+    res.status(400).send("User did not provide password");
   }
 });
 

@@ -13,11 +13,11 @@ app.set("view engine", "jade");
 //// database setup
 // For development, use force:true.
 // For production, will want to use .sync() without any parameters so as to avoid dropping data
-// global.db.sequelize.sync();
-global.db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and Resync Db");
-  initial();
-});
+global.db.sequelize.sync();
+// global.db.sequelize.sync({ force: true }).then(() => {
+//   console.log("Drop and Resync Db");
+//   initial();
+// });
 
 function initial() {
   Role.create({

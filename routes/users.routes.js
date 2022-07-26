@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const User = global.db.User;
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 // INDEX
 // Admin only action
@@ -55,7 +57,13 @@ router.post("/login", async (req, res) => {
     try {
       const match = await bcrypt.compare(req.body.password, user.password);
       if (match) {
-        res.send("success");
+        console.log("login successful");
+        const accessToken = jwt.sign(
+          user.username,
+          process.env.ACCESS_TOKEN_SECRET
+        );
+        res.json({ accessToken: accessToken });
+        // res.send("success");
       } else {
         res.status(400).send("Password was incorrect");
       }

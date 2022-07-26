@@ -28,6 +28,9 @@ Content-Type: application/json
   "password": "password"
 }
 
+### SELF
+GET http://localhost:3000/users/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.dGVzdA.a8UdVL_13iEAleMrc6mJoXkCQMqLL6O9RwYMRBH4OkE
 
 ### UPDATE
 PATCH http://localhost:3000/users/1

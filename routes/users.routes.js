@@ -3,6 +3,7 @@ const router = express.Router();
 const User = global.db.User;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const authJWT = require("../middleware/authJWT");
 require("dotenv").config();
 
 // INDEX
@@ -15,6 +16,16 @@ router.get("/", (req, res) => {
     .catch((err) => {
       res.send(err);
     });
+});
+
+// SELF
+router.get("/me", authJWT, async (req, res) => {
+  const me = await User.findOne({ where: { username: req.user } });
+  const userInfo = {
+    username: me.username,
+    email: me.email,
+  };
+  res.send(userInfo);
 });
 
 // CREATE

@@ -1,0 +1,30 @@
+#############
+### USERS ###
+#############
+
+### INDEX
+GET http://localhost:3000/users 
+
+### SHOW
+GET http://localhost:3000/users/1
+
+### CREATE
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "username": "test",
+  "email": "test@test.com",
+  "password": "password"
+}
+
+### UPDATE
+PATCH http://localhost:3000/users/1
+Content-Type: application/json
+
+{
+  "completed": 1
+}
+
+### DELETE
+DELETE http://localhost:3000/users/2

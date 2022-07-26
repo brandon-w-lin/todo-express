@@ -1,20 +1,28 @@
-###
+#############
+### TODOS ###
+#############
+
+### INDEX
 GET http://localhost:3000/todos 
-###
+
+### SHOW
 GET http://localhost:3000/todos/5
-###
+
+### CREATE
 POST http://localhost:3000/todos
 Content-Type: application/json
 
 {
-  "description": "Get a job"
+  "description": "Get a new job"
 }
-###
-PATCH http://localhost:3000/todos/3
+
+### UPDATE
+PATCH http://localhost:3000/todos/2
 Content-Type: application/json
 
 {
-  "completed": 0
+  "completed": 1
 }
-###
+
+### DELETE
 DELETE http://localhost:3000/todos/2

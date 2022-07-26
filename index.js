@@ -10,7 +10,9 @@ const path = require("path");
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
-// database setup
+//// database setup
+// For development, use force:true.
+// For production, will want to use .sync() without any parameters so as to avoid dropping data
 global.db.sequelize.sync({ force: true }).then(() => {
   console.log("Drop and Resync Db");
   initial();

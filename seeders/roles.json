@@ -1,0 +1,20 @@
+[
+  {
+    "model": "Role",
+    "data": {
+      "name": "user"
+    }
+  },
+  {
+    "model": "Role",
+    "data": {
+      "name": "moderator"
+    }
+  },
+  {
+    "model": "Role",
+    "data": {
+      "name": "admin"
+    }
+  }
+]

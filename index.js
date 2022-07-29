@@ -13,35 +13,21 @@ app.set("view engine", "jade");
 //// database setup
 // For development, use force:true.
 // For production, will want to use .sync() without any parameters so as to avoid dropping data
-global.db.sequelize.sync();
-// global.db.sequelize.sync({ force: true }).then(() => {
-//   console.log("Drop and Resync Db");
-//   initial();
-// });
 
-function initial() {
-  Role.create({
-    id: 1,
-    name: "user",
-  });
+var sequelize_fixtures = require("sequelize-fixtures");
 
-  Role.create({
-    id: 2,
-    name: "moderator",
-  });
+global.db.sequelize.sync({ force: true }).then(() => {
+  console.log("Drop database and resync");
 
-  Role.create({
-    id: 3,
-    name: "admin",
-  });
-}
+  sequelize_fixtures.loadFile("./seeders/roles.json", global.db);
+});
 
 // Routers
 const indexRouter = require("./routes/index");
 app.use("/", indexRouter);
-const todoRouter = require("./routes/todos.routes");
+const todoRouter = require("./routes/todos");
 app.use("/todos", todoRouter);
-const userRouter = require("./routes/users.routes");
+const userRouter = require("./routes/users");
 app.use("/users", userRouter);
 
 const PORT = process.env.PORT || 3000;

@@ -28,5 +28,8 @@
     "url": "https://github.com/brandon-w-lin/todo-express/issues"
   },
   "homepage": "https://github.com/brandon-w-lin/todo-express#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "sequelize-cli": "^6.4.1"
+  }
 }

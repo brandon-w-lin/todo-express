@@ -1,7 +1,8 @@
 const Todo = global.db.Todo;
 
 const index = (req, res) => {
-  Todo.findAll()
+  user = req.user;
+  Todo.findAll({ where: { userId: user.id } })
     .then((todos) => {
       res.status(200).send(todos);
     })

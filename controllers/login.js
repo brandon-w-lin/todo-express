@@ -1,4 +1,9 @@
+const User = global.db.User;
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
 // LOGIN
+
 const login = async (req, res) => {
   const user = await User.findOne({ where: { username: req.body.username } });
   if (user === null) {
@@ -18,7 +23,7 @@ const login = async (req, res) => {
         res.status(400).send("Password was incorrect");
       }
     } catch (err) {
-      console.log("there was an error");
+      console.log("there was an error when trying to log in");
       res.status(500).send(err);
     }
   } else {

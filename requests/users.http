@@ -20,11 +20,11 @@ Content-Type: application/json
 }
 
 ### LOGIN
-POST http://localhost:3000/users/login
+POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-  "username": "test2",
+  "username": "brandon",
   "password": "password"
 }
 

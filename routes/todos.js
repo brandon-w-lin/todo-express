@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const TodosController = require("../controllers/todos");
-const Todo = global.db.Todo;
+const authJWT = require("../middleware/authJWT");
 
 // INDEX
-router.get("/", TodosController.index);
+router.get("/", authJWT, TodosController.index);
 
 // CREATE
 router.post("/", TodosController.create);

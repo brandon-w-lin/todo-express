@@ -16,10 +16,13 @@ app.set("view engine", "jade");
 
 var sequelize_fixtures = require("sequelize-fixtures");
 
-global.db.sequelize.sync({ force: true }).then(() => {
+global.db.sequelize.sync({ force: true }).then(async () => {
   console.log("Drop database and resync");
 
-  sequelize_fixtures.loadFile("./seeders/roles.json", global.db);
+  await sequelize_fixtures.loadFiles(
+    ["./seeders/roles.json", "./seeders/users.json", "./seeders/todos.json"],
+    global.db
+  );
 });
 
 // Routers

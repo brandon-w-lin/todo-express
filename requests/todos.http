@@ -1,9 +1,12 @@
+@jwt = "something"
+
 #############
 ### TODOS ###
 #############
 
 ### INDEX
 GET http://localhost:3000/todos 
+Authorization: Bearer {{jwt}}
 
 ### SHOW
 GET http://localhost:3000/todos/5

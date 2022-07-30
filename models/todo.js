@@ -1,40 +1,24 @@
-"use strict";
-
-// const db = require("../service/db"); // instance of Sequelize
-// const { DataTypes } = require("sequelize");
-
-// const Todo = db.sequelize.define(
-//   "todo",
-//   {
-//     id: { type: DataTypes.INTEGER, primaryKey: true },
-//     completed: { type: DataTypes.INTEGER },
-//     description: { type: DataTypes.STRING },
-//   },
-//   {
-//     createdAt: "createdat",
-//     updatedAt: "updatedat",
-//     underscored: true,
-//     // tableName: "creator",
-//   }
-// );
-
-// module.exports = Todo;
-
-module.exports = function (sequelize, DataTypes) {
-  var Todo = sequelize.define(
-    "todo",
-    {
-      // id: { type: DataTypes.INTEGER, primaryKey: true },
-      completed: { type: DataTypes.INTEGER },
-      description: { type: DataTypes.STRING },
-    },
-    {
-      createdAt: "createdat",
-      updatedAt: "updatedat",
-      underscored: true,
-      // tableName: "creator",
+'use strict';
+const {
+  Model
+} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class Todo extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
     }
-  );
-
+  }
+  Todo.init({
+    completed: DataTypes.INTEGER,
+    description: DataTypes.TEXT
+  }, {
+    sequelize,
+    modelName: 'Todo',
+  });
   return Todo;
 };

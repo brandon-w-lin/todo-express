@@ -8,12 +8,6 @@
   {
     "model": "Role",
     "data": {
-      "name": "moderator"
-    }
-  },
-  {
-    "model": "Role",
-    "data": {
       "name": "admin"
     }
   }

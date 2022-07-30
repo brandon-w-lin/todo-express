@@ -14,24 +14,14 @@ if (!global.hasOwnProperty("db")) {
 
     /*
      *
-     * TODO add any additional models here.
+     * MODEL DECLARATIONS
      *
      */
   };
 
-  // global.db.Creator.hasMany(global.db.Install, {
-  //   onDelete: "cascade",
-  //   foreignKey: "creator_id",
-  // });
-
-  // global.db.Install.belongsTo(global.db.Campaign, {
-  //     onDelete: 'cascade',
-  //     foreignKey: 'campaign_id',
-  // });
-
   /*
    *
-   * TODO add any additional relationships between models here.
+   * MODEL RELATIONSHIPS
    *
    */
 
@@ -48,6 +38,4 @@ if (!global.hasOwnProperty("db")) {
 
   global.db.User.hasMany(global.db.Todo);
   global.db.Todo.belongsTo(global.db.User);
-
-  // global.db.ROLES = ["user", "admin", "moderator"];
 }

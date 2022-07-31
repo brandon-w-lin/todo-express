@@ -1,4 +1,4 @@
-@jwt = "something"
+@jwt = eyJhbGciOiJIUzI1NiJ9.MQ.gTK3JhYZ5DqbORiRPjVDEPFANoCBGLOPpvTSqdjxyAU
 
 #############
 ### TODOS ###

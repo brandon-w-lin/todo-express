@@ -7,8 +7,8 @@ app.use(express.json());
 
 // view engine setup
 const path = require("path");
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
+// app.set("views", path.join(__dirname, "views"));
+// app.set("view engine", "jade");
 
 //// database setup
 // For development, use force:true.
@@ -21,39 +21,41 @@ const newUser = require("./controllers/users");
 const bcrypt = require("bcrypt");
 const axios = require("axios");
 
-global.db.sequelize.sync({ force: true }).then(async () => {
-  console.log("Drop database and resync");
+global.db.sequelize.sync();
+// global.db.sequelize.sync({ force: true }).then(async () => {
+//   console.log("Drop database and resync");
 
-  await sequelize_fixtures.loadFile("./seeders/roles.json", global.db);
-  const pw1 = await bcrypt.hash("password", 10);
-  global.db.User.create({
-    username: "brandon",
-    email: "brandon@test.com",
-    password: pw1,
-  });
-  const pw2 = await bcrypt.hash("password", 10);
-  global.db.User.create({
-    username: "lotte",
-    email: "lotte@test.com",
-    password: pw2,
-  });
-  const pw3 = await bcrypt.hash("password", 10);
-  global.db.User.create({
-    username: "archer",
-    email: "archer@test.com",
-    password: pw3,
-  });
-  await sequelize_fixtures.loadFile("./seeders/todos.json", global.db);
+//   await sequelize_fixtures.loadFile("./seeders/roles.json", global.db);
+//   const pw1 = await bcrypt.hash("password", 10);
+//   global.db.User.create({
+//     username: "brandon",
+//     email: "brandon@test.com",
+//     password: pw1,
+//     roles: [{ name: "admin" }],
+//   });
+//   const pw2 = await bcrypt.hash("password", 10);
+//   global.db.User.create({
+//     username: "lotte",
+//     email: "lotte@test.com",
+//     password: pw2,
+//   });
+//   const pw3 = await bcrypt.hash("password", 10);
+//   global.db.User.create({
+//     username: "archer",
+//     email: "archer@test.com",
+//     password: pw3,
+//   });
+//   await sequelize_fixtures.loadFile("./seeders/todos.json", global.db);
 
-  const my_jwt = await axios
-    .post("http://localhost:3000/login", {
-      username: "brandon",
-      password: "password",
-    })
-    .then((response) => {
-      global.my_jwt = response.data.accessToken;
-    });
-});
+//   const my_jwt = await axios
+//     .post("http://localhost:3000/login", {
+//       username: "brandon",
+//       password: "password",
+//     })
+//     .then((response) => {
+//       global.my_jwt = response.data.accessToken;
+//     });
+// });
 
 // Routers
 const indexRouter = require("./routes/index");

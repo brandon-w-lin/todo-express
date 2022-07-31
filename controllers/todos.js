@@ -1,7 +1,8 @@
 const Todo = global.db.Todo;
+const { Op } = require("sequelize");
 
 const index = async (req, res) => {
-  Todo.findAll({ where: { userId: req.user_id } })
+  Todo.findAll({ where: { userId: req.user_id, completed: { [Op.ne]: -1 } } })
     .then((todos) => {
       res.status(200).send(todos);
     })
@@ -57,9 +58,15 @@ const destroy = async (req, res) => {
           "Forbidden - atempting to make changes to resource without proper authorization."
         );
     }
-    await todo.destroy();
-    res.status(200).send("Destroyed successfully");
-    // redirect?
+    // await todo.destroy();
+    await todo.set({
+      completed: -1,
+    });
+    if (await todo.save()) {
+      res.status(200).send("Destroyed successfully");
+    } else {
+      res.status(500).send("Unknown error when attempting to delete resource");
+    }
   } catch (err) {
     res.send(err);
   }

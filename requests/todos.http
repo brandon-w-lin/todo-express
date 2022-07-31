@@ -29,6 +29,6 @@ Authorization: Bearer {{jwt}}
 }
 
 ### DELETE
-DELETE http://localhost:3000/todos/2
+DELETE http://localhost:3000/todos/1
 Authorization: Bearer {{jwt}}
 

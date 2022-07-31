@@ -1,5 +1,4 @@
 const Todo = global.db.Todo;
-const User = global.db.User;
 
 const index = async (req, res) => {
   Todo.findAll({ where: { userId: req.user_id } })

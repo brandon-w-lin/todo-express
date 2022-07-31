@@ -50,6 +50,13 @@ const update = async (req, res) => {
 const destroy = async (req, res) => {
   try {
     const todo = await Todo.findByPk(req.params.id);
+    if (Number(req.user_id) !== todo.userId) {
+      return res
+        .status(403)
+        .send(
+          "Forbidden - atempting to make changes to resource without proper authorization."
+        );
+    }
     await todo.destroy();
     res.status(200).send("Destroyed successfully");
     // redirect?

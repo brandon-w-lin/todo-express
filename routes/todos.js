@@ -13,7 +13,7 @@ router.post("/", TodosController.create);
 router.patch("/:id", authJWT, TodosController.update);
 
 // DELETE
-router.delete("/:id", TodosController.destroy);
+router.delete("/:id", authJWT, TodosController.destroy);
 
 // const pool = require("../service/db");
 

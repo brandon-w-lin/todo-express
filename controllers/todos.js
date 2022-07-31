@@ -65,15 +65,15 @@ const destroy = async (req, res) => {
           "Forbidden - atempting to make changes to resource without proper authorization."
         );
     }
-    // await todo.destroy();
     await todo.set({
       completed: -1,
     });
-    if (await todo.save()) {
-      res.status(200).send("Destroyed successfully");
-    } else {
-      res.status(500).send("Unknown error when attempting to delete resource");
-    }
+    todo
+      .save()
+      .then(res.status(200).send("Destroyed successfully"))
+      .catch((err) => {
+        res.status(500).send(err);
+      });
   } catch (err) {
     res.send(err);
   }

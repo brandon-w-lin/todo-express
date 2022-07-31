@@ -40,9 +40,12 @@ const update = async (req, res) => {
       completed: completed === 0 ? completed : completed || todo.completed,
       description: description || todo.description,
     });
-    await todo.save();
-    console.log("update success");
-    res.send(todo);
+    todo
+      .save()
+      .then(res.status(200).send(todo))
+      .catch((err) => {
+        console.log(err);
+      });
   } catch (err) {
     console.log("update fail");
     res.send(err);

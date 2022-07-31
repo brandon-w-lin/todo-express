@@ -10,7 +10,7 @@ router.get("/", authJWT, TodosController.index);
 router.post("/", TodosController.create);
 
 // UPDATE
-router.patch("/:id", TodosController.update);
+router.patch("/:id", authJWT, TodosController.update);
 
 // DELETE
 router.delete("/:id", TodosController.destroy);

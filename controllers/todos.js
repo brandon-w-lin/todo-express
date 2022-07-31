@@ -25,9 +25,17 @@ const create = (req, res) => {
 const update = async (req, res) => {
   try {
     const todo = await Todo.findByPk(req.params.id);
+    if (Number(req.user_id) !== todo.userId) {
+      return res
+        .status(403)
+        .send(
+          "Forbidden - atempting to make changes to resource without proper authorization."
+        );
+    }
+
     const completed = req.body.completed;
     const description = req.body.description;
-    todo.set({
+    await todo.set({
       completed: completed === 0 ? completed : completed || todo.completed,
       description: description || todo.description,
     });

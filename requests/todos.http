@@ -20,8 +20,9 @@ Content-Type: application/json
 }
 
 ### UPDATE
-PATCH http://localhost:3000/todos/2
+PATCH http://localhost:3000/todos/3
 Content-Type: application/json
+Authorization: Bearer {{jwt}}
 
 {
   "completed": 1

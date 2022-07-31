@@ -20,7 +20,7 @@ Content-Type: application/json
 }
 
 ### UPDATE
-PATCH http://localhost:3000/todos/3
+PATCH http://localhost:3000/todos/1
 Content-Type: application/json
 Authorization: Bearer {{jwt}}
 

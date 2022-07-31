@@ -24,7 +24,8 @@ const create = (req, res) => {
 
 const update = async (req, res) => {
   try {
-    const todo = await Todo.findByPk(req.params.id);
+    const todo = await Todo.findByPk(req.params.id); // This looks up by the key, without filtering on completed status. This allows for deleted todos to be brought back.
+    if (todo === null) return res.status(404).send("Resource not found.");
     if (Number(req.user_id) !== todo.userId) {
       return res
         .status(403)
@@ -50,7 +51,10 @@ const update = async (req, res) => {
 
 const destroy = async (req, res) => {
   try {
-    const todo = await Todo.findByPk(req.params.id);
+    const todo = await Todo.findOne({
+      where: { id: req.params.id, completed: { [Op.ne]: -1 } },
+    });
+    if (todo === null) return res.status(404).send("Resource not found.");
     if (Number(req.user_id) !== todo.userId) {
       return res
         .status(403)

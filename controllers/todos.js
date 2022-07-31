@@ -25,7 +25,8 @@ const create = (req, res) => {
 const update = async (req, res) => {
   try {
     const todo = await Todo.findByPk(req.params.id);
-    const { completed, description } = req.body;
+    const completed = req.body.completed;
+    const description = req.body.description;
     todo.set({
       completed: completed === 0 ? completed : completed || todo.completed,
       description: description || todo.description,

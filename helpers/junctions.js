@@ -1,10 +1,5 @@
 const User = global.db.User;
 const Role = global.db.Role;
-// require("dotenv").config();
-
-function test() {
-  console.log("testing");
-}
 
 function addRoleToUser(user_id, role_id) {
   User.findByPk(user_id)
@@ -18,7 +13,7 @@ function addRoleToUser(user_id, role_id) {
       return Role.findByPk(role_id).then((role) => {
         if (!role) {
           console.log(
-            "Could not find role when attempting to create user-role junction"
+            `Could not find role when attempting to create user-role junction: ${role_id}`
           );
           return null;
         }
@@ -32,4 +27,4 @@ function addRoleToUser(user_id, role_id) {
     });
 }
 
-module.exports = { addRoleToUser, test };
+module.exports = { addRoleToUser };

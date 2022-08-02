@@ -16,7 +16,7 @@ const db = require("./models");
 
 // global.db.sequelize.sync();
 const bcrypt = require("bcrypt");
-const helper = require("./helpers/addRoleToUser");
+const junctions = require("./helpers/junctions");
 global.db.sequelize.sync({ force: true }).then(async () => {
   console.log("Drop database and resync");
 
@@ -40,24 +40,15 @@ global.db.sequelize.sync({ force: true }).then(async () => {
     email: "archer@test.com",
     password: pw3,
   });
-  await helper.addRoleToUser(1, 1);
-  await helper.addRoleToUser(2, 1);
-  await helper.addRoleToUser(3, 1);
-
-  // global.db.User.findByPk(1, {
-  //   include: [{ model: global.db.Role, as: "roles" }],
-  // }).then((user) => console.log(user));
+  await junctions.addRoleToUser(1, 1);
+  await junctions.addRoleToUser(2, 1);
+  await junctions.addRoleToUser(3, 1);
 
   await sequelize_fixtures.loadFile("./seeders/todos.json", global.db);
 });
 
-// global.db.Role.findByPk(1, {
-//   include: [{ model: global.db.User, as: "users" }],
-// }).then((role) => console.log(role));
-
 // Routers
-// const indexRouter = require("./routes/index");
-// app.use("/", indexRouter);
+
 const todoRouter = require("./routes/todos");
 app.use("/todos", todoRouter);
 const userRouter = require("./routes/users");

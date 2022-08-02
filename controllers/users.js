@@ -2,7 +2,7 @@ const User = global.db.User;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 // const Role = global.db.Role;
-const helper = require("../helpers/addRoleToUser");
+const helper = require("../helpers/junctions");
 require("dotenv").config();
 
 const index = (req, res) => {

@@ -7,6 +7,9 @@ const UsersController = require("../controllers/users");
 router.get("/", UsersController.index);
 
 // SHOW
+router.get("/:id", UsersController.show);
+
+// SHOW
 router.get("/me", authJWT, UsersController.show);
 
 // CREATE

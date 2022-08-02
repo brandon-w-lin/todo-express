@@ -15,8 +15,26 @@ const index = (req, res) => {
     });
 };
 
-// SELF
+// SHOW
 const show = async (req, res) => {
+  const user = await User.findByPk(req.params.id, {
+    include: [
+      { model: global.db.Role, as: "roles" },
+      { model: global.db.Todo, as: "todos" },
+    ],
+  });
+  const userInfo = {
+    username: user.username,
+    email: user.email,
+    role: { id: user.roles[0].id, name: user.roles[0].name },
+    todos: user.todos,
+  };
+  // console.log(req.params);
+  res.send(userInfo);
+};
+
+// SELF
+const self = async (req, res) => {
   const me = await User.findOne({
     where: { id: req.user_id },
   });
@@ -59,4 +77,4 @@ const create = async (req, res) => {
   }
 };
 
-module.exports = { index, show, create };
+module.exports = { index, show, self, create };

@@ -6,28 +6,31 @@ const helper = require("../helpers/junctions");
 require("dotenv").config();
 
 const index = (req, res) => {
-  User.findAll()
-    .then((users) => {
-      res.status(200).send(users);
-    })
-    .catch((err) => {
-      res.send(err);
-    });
+  if (req.highest_role > 1) {
+    User.findAll()
+      .then((users) => {
+        res.status(200).send(users);
+      })
+      .catch((err) => {
+        res.send(err);
+      });
+  } else {
+    res
+      .status(403)
+      .send("Unauthorized - you do not have permission to view this resource.");
+  }
 };
 
 // SHOW
 const show = async (req, res) => {
+  // console.log(req.user);
   const user = await User.findByPk(req.params.id, {
-    include: [
-      { model: global.db.Role, as: "roles" },
-      { model: global.db.Todo, as: "todos" },
-    ],
+    include: [{ model: global.db.Role, as: "roles" }],
   });
   const userInfo = {
     username: user.username,
     email: user.email,
     role: { id: user.roles[0].id, name: user.roles[0].name },
-    todos: user.todos,
   };
   // console.log(req.params);
   res.send(userInfo);

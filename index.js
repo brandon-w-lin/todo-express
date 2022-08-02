@@ -40,7 +40,7 @@ global.db.sequelize.sync({ force: true }).then(async () => {
     email: "archer@test.com",
     password: pw3,
   });
-  await junctions.addRoleToUser(1, 1);
+  await junctions.addRoleToUser(1, 2);
   await junctions.addRoleToUser(2, 1);
   await junctions.addRoleToUser(3, 1);
 

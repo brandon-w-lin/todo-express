@@ -9,7 +9,7 @@ GET http://localhost:3000/todos
 Authorization: Bearer {{jwt}}
 
 ### SHOW
-GET http://localhost:3000/todos/5
+GET http://localhost:3000/todos/1
 
 ### CREATE
 POST http://localhost:3000/todos

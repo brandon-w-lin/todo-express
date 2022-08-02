@@ -4,7 +4,7 @@ const authJWT = require("../middleware/authJWT");
 const UsersController = require("../controllers/users");
 // INDEX
 // Admin only action
-router.get("/", UsersController.index);
+router.get("/", authJWT, UsersController.index);
 
 // SHOW
 router.get("/:id", UsersController.show);

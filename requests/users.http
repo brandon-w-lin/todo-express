@@ -7,9 +7,11 @@
 
 ### INDEX
 GET http://localhost:3000/users 
+Authorization: Bearer {{jwt}}
 
 ### SHOW
-GET http://localhost:3000/users/me
+GET http://localhost:3000/users/1
+Authorization: Bearer {{jwt}}
 
 ### CREATE
 POST http://localhost:3000/users

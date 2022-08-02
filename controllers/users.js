@@ -1,6 +1,8 @@
 const User = global.db.User;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+// const Role = global.db.Role;
+const helper = require("../helpers/addRoleToUser");
 require("dotenv").config();
 
 const index = (req, res) => {
@@ -15,7 +17,9 @@ const index = (req, res) => {
 
 // SELF
 const show = async (req, res) => {
-  const me = await User.findOne({ where: { username: req.user } });
+  const me = await User.findOne({
+    where: { id: req.user_id },
+  });
   const userInfo = {
     username: me.username,
     email: me.email,
@@ -43,6 +47,7 @@ const create = async (req, res) => {
         password: hashedPassword,
       })
         .then((response) => {
+          helper.addRoleToUser(response.id, 1); // sets default role to user
           res.status(201).send(response);
         })
         .catch((err) => {

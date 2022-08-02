@@ -14,34 +14,46 @@ const db = require("./models");
 // For development, use force:true.
 // For production, will want to use .sync() without any parameters so as to avoid dropping data
 
-global.db.sequelize.sync();
-// const bcrypt = require("bcrypt");
-// global.db.sequelize.sync({ force: true }).then(async () => {
-//   console.log("Drop database and resync");
+// global.db.sequelize.sync();
+const bcrypt = require("bcrypt");
+const helper = require("./helpers/addRoleToUser");
+global.db.sequelize.sync({ force: true }).then(async () => {
+  console.log("Drop database and resync");
 
-//   var sequelize_fixtures = require("sequelize-fixtures");
-//   await sequelize_fixtures.loadFile("./seeders/roles.json", global.db);
-//   const pw1 = await bcrypt.hash("password", 10);
-//   global.db.User.create({
-//     username: "brandon",
-//     email: "brandon@test.com",
-//     password: pw1,
-//     roles: [{ name: "admin" }],
-//   });
-//   const pw2 = await bcrypt.hash("password", 10);
-//   global.db.User.create({
-//     username: "lotte",
-//     email: "lotte@test.com",
-//     password: pw2,
-//   });
-//   const pw3 = await bcrypt.hash("password", 10);
-//   global.db.User.create({
-//     username: "archer",
-//     email: "archer@test.com",
-//     password: pw3,
-//   });
-//   await sequelize_fixtures.loadFile("./seeders/todos.json", global.db);
-// });
+  var sequelize_fixtures = require("sequelize-fixtures");
+  await sequelize_fixtures.loadFile("./seeders/roles.json", global.db);
+  const pw1 = await bcrypt.hash("password", 10);
+  await global.db.User.create({
+    username: "brandon",
+    email: "brandon@test.com",
+    password: pw1,
+  });
+  const pw2 = await bcrypt.hash("password", 10);
+  await global.db.User.create({
+    username: "lotte",
+    email: "lotte@test.com",
+    password: pw2,
+  });
+  const pw3 = await bcrypt.hash("password", 10);
+  await global.db.User.create({
+    username: "archer",
+    email: "archer@test.com",
+    password: pw3,
+  });
+  await helper.addRoleToUser(1, 1);
+  await helper.addRoleToUser(2, 1);
+  await helper.addRoleToUser(3, 1);
+
+  // global.db.User.findByPk(1, {
+  //   include: [{ model: global.db.Role, as: "roles" }],
+  // }).then((user) => console.log(user));
+
+  await sequelize_fixtures.loadFile("./seeders/todos.json", global.db);
+});
+
+// global.db.Role.findByPk(1, {
+//   include: [{ model: global.db.User, as: "users" }],
+// }).then((role) => console.log(role));
 
 // Routers
 // const indexRouter = require("./routes/index");
@@ -52,6 +64,8 @@ const userRouter = require("./routes/users");
 app.use("/users", userRouter);
 const loginRouter = require("./routes/login");
 app.use("/login", loginRouter);
+const roleRouter = require("./routes/roles");
+app.use("/roles", roleRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

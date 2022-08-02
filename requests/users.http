@@ -1,3 +1,6 @@
+@jwt = eyJhbGciOiJIUzI1NiJ9.MQ.F0BNFoIruX9-qETBu_qG_JJpxUVco4uSIBLM29_Myj4
+
+
 #############
 ### USERS ###
 #############
@@ -6,7 +9,7 @@
 GET http://localhost:3000/users 
 
 ### SHOW
-GET http://localhost:3000/users/1
+GET http://localhost:3000/users/me
 
 ### CREATE
 POST http://localhost:3000/users
@@ -30,7 +33,7 @@ Content-Type: application/json
 
 ### SELF
 GET http://localhost:3000/users/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.dGVzdA.a8UdVL_13iEAleMrc6mJoXkCQMqLL6O9RwYMRBH4OkE
+Authorization: Bearer {{jwt}}
 
 ### UPDATE
 PATCH http://localhost:3000/users/1

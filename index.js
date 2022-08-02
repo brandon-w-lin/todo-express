@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 app.use(express.json());
+app.use(cors({ origin: "http://localhost:8080" }));
+const db = require("./models");
 
 // view engine setup
 // const path = require("path");
@@ -14,7 +17,7 @@ app.use(express.json());
 global.db.sequelize.sync();
 // const bcrypt = require("bcrypt");
 // global.db.sequelize.sync({ force: true }).then(async () => {
-//     console.log("Drop database and resync");
+//   console.log("Drop database and resync");
 
 //   var sequelize_fixtures = require("sequelize-fixtures");
 //   await sequelize_fixtures.loadFile("./seeders/roles.json", global.db);
@@ -41,8 +44,8 @@ global.db.sequelize.sync();
 // });
 
 // Routers
-const indexRouter = require("./routes/index");
-app.use("/", indexRouter);
+// const indexRouter = require("./routes/index");
+// app.use("/", indexRouter);
 const todoRouter = require("./routes/todos");
 app.use("/todos", todoRouter);
 const userRouter = require("./routes/users");

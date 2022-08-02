@@ -1,4 +1,4 @@
-@jwt = eyJhbGciOiJIUzI1NiJ9.MQ.gTK3JhYZ5DqbORiRPjVDEPFANoCBGLOPpvTSqdjxyAU
+@jwt = eyJhbGciOiJIUzI1NiJ9.MQ.F0BNFoIruX9-qETBu_qG_JJpxUVco4uSIBLM29_Myj4
 
 #############
 ### TODOS ###
@@ -14,9 +14,10 @@ GET http://localhost:3000/todos/5
 ### CREATE
 POST http://localhost:3000/todos
 Content-Type: application/json
+Authorization: Bearer {{jwt}}
 
 {
-  "description": "Get a new job"
+  "description": "Buy groceries"
 }
 
 ### UPDATE

@@ -13,7 +13,7 @@ const index = async (req, res) => {
 
 const create = (req, res) => {
   const description = req.body.description;
-  Todo.create({ completed: 0, description: description })
+  Todo.create({ completed: 0, description: description, userId: req.user_id })
     .then((response) => {
       res.status(200).send(response);
     })

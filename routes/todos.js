@@ -7,7 +7,7 @@ const authJWT = require("../middleware/authJWT");
 router.get("/", authJWT, TodosController.index);
 
 // CREATE
-router.post("/", TodosController.create);
+router.post("/", authJWT, TodosController.create);
 
 // UPDATE
 router.patch("/:id", authJWT, TodosController.update);

@@ -11,7 +11,10 @@ Authorization: Bearer {{jwt}}
 
 ### SHOW
 GET http://localhost:3000/users/1
+### SELF
+GET http://localhost:3000/users/me 
 Authorization: Bearer {{jwt}}
+
 
 ### CREATE
 POST http://localhost:3000/users

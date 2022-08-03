@@ -7,7 +7,17 @@ require("dotenv").config();
 
 const index = (req, res) => {
   if (req.highest_role > 1) {
-    User.findAll()
+    User.findAll({
+      attributes: ["username", "email"],
+      include: [
+        {
+          model: global.db.Role,
+          as: "roles",
+          attributes: ["id", "name"],
+          through: { attributes: [] },
+        },
+      ],
+    })
       .then((users) => {
         res.status(200).send(users);
       })
@@ -21,7 +31,26 @@ const index = (req, res) => {
   }
 };
 
+// SELF
+const self = async (req, res) => {
+  const me = await User.findByPk(req.user_id, {
+    include: [{ model: global.db.Role, as: "roles" }],
+  });
+  const roles = me.roles.map((role) => {
+    role.id;
+  });
+
+  const userInfo = {
+    username: me.username,
+    email: me.email,
+    roles: roles,
+  };
+
+  res.send(userInfo);
+};
+
 // SHOW
+// Want to be able to show different stuff based on admin privelege.
 const show = async (req, res) => {
   // console.log(req.user);
   const user = await User.findByPk(req.params.id, {
@@ -30,21 +59,8 @@ const show = async (req, res) => {
   const userInfo = {
     username: user.username,
     email: user.email,
-    role: { id: user.roles[0].id, name: user.roles[0].name },
   };
   // console.log(req.params);
-  res.send(userInfo);
-};
-
-// SELF
-const self = async (req, res) => {
-  const me = await User.findOne({
-    where: { id: req.user_id },
-  });
-  const userInfo = {
-    username: me.username,
-    email: me.email,
-  };
   res.send(userInfo);
 };
 

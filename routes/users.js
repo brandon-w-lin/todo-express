@@ -6,11 +6,11 @@ const UsersController = require("../controllers/users");
 // Admin only action
 router.get("/", authJWT, UsersController.index);
 
-// SHOW
-router.get("/:id", UsersController.show);
+// SELF
+router.get("/me", authJWT, UsersController.self);
 
 // SHOW
-router.get("/me", authJWT, UsersController.show);
+router.get("/:id", UsersController.show);
 
 // CREATE
 router.post("/", UsersController.create);

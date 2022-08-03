@@ -2,7 +2,7 @@ const User = global.db.User;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 // const Role = global.db.Role;
-const helper = require("../helpers/junctions");
+const junction = require("../helpers/junctions");
 require("dotenv").config();
 
 const index = (req, res) => {
@@ -96,7 +96,7 @@ const create = async (req, res) => {
         password: hashedPassword,
       })
         .then((response) => {
-          helper.addRoleToUser(response.id, 1); // sets default role to user
+          junction.addRoleToUser(response.id, 1); // sets default role to user
           res.status(201).send(response);
         })
         .catch((err) => {

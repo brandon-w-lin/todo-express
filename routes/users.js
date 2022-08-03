@@ -15,4 +15,7 @@ router.get("/:id", UsersController.show);
 // CREATE
 router.post("/", UsersController.create);
 
+// UPDATE
+router.patch("/me", authJWT, UsersController.update);
+
 module.exports = router;

@@ -41,11 +41,13 @@ GET http://localhost:3000/users/me
 Authorization: Bearer {{jwt}}
 
 ### UPDATE
-PATCH http://localhost:3000/users/1
+PATCH http://localhost:3000/users/me
 Content-Type: application/json
+Authorization: Bearer {{jwt}}
 
 {
-  "completed": 1
+  "password": "password2",
+  "password_confirmation": "password2"
 }
 
 ### DELETE

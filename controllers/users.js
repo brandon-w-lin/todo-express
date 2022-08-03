@@ -33,20 +33,19 @@ const index = (req, res) => {
 
 // SELF
 const self = async (req, res) => {
-  const me = await User.findByPk(req.user_id, {
-    include: [{ model: global.db.Role, as: "roles" }],
-  });
-  const roles = me.roles.map((role) => {
-    role.id;
+  const user = await User.findByPk(req.user_id, {
+    attributes: ["username", "email"],
+    include: [
+      {
+        model: global.db.Role,
+        as: "roles",
+        attributes: ["id", "name"],
+        through: { attributes: [] },
+      },
+    ],
   });
 
-  const userInfo = {
-    username: me.username,
-    email: me.email,
-    roles: roles,
-  };
-
-  res.send(userInfo);
+  res.send(user);
 };
 
 // SHOW
@@ -96,4 +95,39 @@ const create = async (req, res) => {
   }
 };
 
-module.exports = { index, show, self, create };
+// UPDATE
+
+// Would like to refactor this to be flexible to future changes in user attributes, e.g. more than just username / email
+const update = async (req, res) => {
+  const user = await User.findByPk(req.user_id);
+
+  if (req.body.password) {
+    if (req.body.password !== req.body.password_confirmation) {
+      res
+        .status(400)
+        .send("Error: password and password_confirmation do not match.");
+    } else if (await bcrypt.compare(req.body.password, user.password)) {
+      res.status(400).send("Password has been used before.");
+    } else {
+      // Update password
+      console.log("got to where I wanted");
+      try {
+        oldPassword = user.password;
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        user.set({ password: hashedPassword });
+        user
+          .save()
+          .then(res.status(200).send(`Password was updated.`))
+          .catch((err) => {
+            res.status(500).send(err);
+          });
+      } catch {
+        res.status(500);
+      }
+    }
+  }
+
+  // if (req.body.username || req.body.email) {}
+};
+
+module.exports = { index, show, self, create, update };

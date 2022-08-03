@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const RolesController = require("../controllers/roles");
 // INDEX
-// router.get("/", RolesController.index);
+router.get("/", RolesController.index);
 
 // // SHOW
 router.get("/:id", RolesController.show);

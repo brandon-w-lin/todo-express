@@ -1,4 +1,4 @@
-// const User = global.db.User;
+const User = global.db.User;
 const Role = global.db.Role;
 // const bcrypt = require("bcrypt");
 // const jwt = require("jsonwebtoken");
@@ -25,9 +25,31 @@ require("dotenv").config();
 // };
 
 // SHOW
+const index = async (req, res) => {
+  const roles = await Role.findAll({
+    include: [
+      {
+        model: User,
+        as: "users",
+        attributes: ["id", "username"],
+        through: { attributes: [] },
+      },
+    ],
+  });
+  res.send(roles);
+};
+
+// SHOW
 const show = async (req, res) => {
   const role = await Role.findByPk(1, {
-    include: [{ model: global.db.User, as: "users" }],
+    include: [
+      {
+        model: User,
+        as: "users",
+        attributes: ["id", "username"],
+        through: { attributes: [] },
+      },
+    ],
   });
   res.send(role);
 };
@@ -63,4 +85,4 @@ const show = async (req, res) => {
 //   }
 // };
 
-module.exports = { show };
+module.exports = { index, show };

@@ -1,0 +1,13 @@
+@jwt = eyJhbGciOiJIUzI1NiJ9.MQ.F0BNFoIruX9-qETBu_qG_JJpxUVco4uSIBLM29_Myj4
+
+#############
+### ROLES ###
+#############
+
+### INDEX
+GET http://localhost:3000/roles
+Authorization: Bearer {{jwt}}
+
+### SHOW
+GET http://localhost:3000/roles/1
+Authorization: Bearer {{jwt}}

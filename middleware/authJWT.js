@@ -12,7 +12,7 @@ function authenticateToken(req, res, next) {
   if (token == null) return res.status(401);
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, user_id) => {
-    if (err) return res.status(403);
+    if (err) return res.status(403).send("Invalid token");
     req.user_id = user_id;
     req.highest_role = await getHighestRole(user_id);
     next();

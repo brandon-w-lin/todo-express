@@ -10,7 +10,7 @@ router.get("/", authJWT, UsersController.index);
 router.get("/me", authJWT, UsersController.self);
 
 // SHOW
-router.get("/:id", UsersController.show);
+router.get("/:id", authJWT, UsersController.show);
 
 // CREATE
 router.post("/", UsersController.create);

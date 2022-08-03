@@ -11,6 +11,7 @@ Authorization: Bearer {{jwt}}
 
 ### SHOW
 GET http://localhost:3000/users/1
+Authorization: Bearer {{jwt}}
 ### SELF
 GET http://localhost:3000/users/me 
 Authorization: Bearer {{jwt}}

@@ -6,7 +6,11 @@ const helper = require("../helpers/junctions");
 require("dotenv").config();
 
 const index = (req, res) => {
-  if (req.highest_role > 1) {
+  if (req.highest_role < 2) {
+    res
+      .status(403)
+      .send("Unauthorized - you do not have permission to view this resource.");
+  } else {
     User.findAll({
       attributes: ["username", "email"],
       include: [
@@ -24,10 +28,6 @@ const index = (req, res) => {
       .catch((err) => {
         res.send(err);
       });
-  } else {
-    res
-      .status(403)
-      .send("Unauthorized - you do not have permission to view this resource.");
   }
 };
 
@@ -52,15 +52,28 @@ const self = async (req, res) => {
 // Want to be able to show different stuff based on admin privelege.
 const show = async (req, res) => {
   // console.log(req.user);
-  const user = await User.findByPk(req.params.id, {
-    include: [{ model: global.db.Role, as: "roles" }],
-  });
-  const userInfo = {
-    username: user.username,
-    email: user.email,
-  };
-  // console.log(req.params);
-  res.send(userInfo);
+  if (req.highest_role < 2) {
+    res
+      .status(403)
+      .send("Unauthorized - you do not have permission to view this resource.");
+  } else {
+    const user = await User.findByPk(req.params.id, {
+      include: [
+        {
+          model: global.db.Role,
+          as: "roles",
+          attributes: ["id", "name"],
+          through: { attributes: [] },
+        },
+      ],
+    });
+
+    if (user) {
+      res.status(200).send(user);
+    } else {
+      res.status(404).send("User not found");
+    }
+  }
 };
 
 // CREATE

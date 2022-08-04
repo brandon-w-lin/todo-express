@@ -12,7 +12,7 @@ const index = (req, res) => {
       .send("Unauthorized - you do not have permission to view this resource.");
   } else {
     User.findAll({
-      attributes: ["username", "email"],
+      attributes: ["username", "email", "createdAt"],
       include: [
         {
           model: global.db.Role,
@@ -34,7 +34,7 @@ const index = (req, res) => {
 // SELF
 const self = async (req, res) => {
   const user = await User.findByPk(req.user_id, {
-    attributes: ["username", "email"],
+    attributes: ["username", "email", "createdAt"],
     include: [
       {
         model: global.db.Role,
@@ -58,6 +58,7 @@ const show = async (req, res) => {
       .send("Unauthorized - you do not have permission to view this resource.");
   } else {
     const user = await User.findByPk(req.params.id, {
+      attributes: ["username", "email", "createdAt"],
       include: [
         {
           model: global.db.Role,

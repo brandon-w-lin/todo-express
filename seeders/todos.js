@@ -1,40 +1,22 @@
 const { default: axios } = require("axios");
 
-const todos = [
-  {
-    completed: "0",
-    description: "Build a new app",
-    userId: "1",
-  },
-  {
-    completed: "0",
-    description: "Build a portfolio page",
-    userId: "1",
-  },
-  {
-    completed: "0",
-    description: "Graduate from school",
-    userId: "2",
-  },
-  {
-    completed: "0",
-    description: "Apply for jobs",
-    userId: "2",
-  },
-  {
-    completed: "0",
-    description: "Woof woof",
-    userId: "3",
-  },
-  {
-    completed: "0",
-    description: "Bark bark",
-    userId: "3",
-  },
-];
+module.exports = (description, jwt) => {
+  const config = {
+    headers: {
+      Authorization: "Bearer " + jwt,
+    },
+  };
 
-module.exports = (config) => {
-  todos.forEach((todo) => {
-    axios.post("http://localhost:3000/todos", todo, config);
+  return new Promise((res, rej) => {
+    axios
+      .post("http://localhost:3000/todos", { description: description }, config)
+      .then((response) => {
+        console.log("created todo: " + response.data.id);
+        res();
+      })
+      .catch((error) => {
+        console.log("error creating todo", error);
+        rej();
+      });
   });
 };

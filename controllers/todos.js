@@ -1,8 +1,15 @@
 const Todo = global.db.Todo;
+const Todo_Order = global.db.Todo_Order;
 const { Op } = require("sequelize");
 
 const index = async (req, res) => {
-  Todo.findAll({ where: { userId: req.user_id, completed: { [Op.ne]: -1 } } })
+  Todo.findAll({
+    where: { userId: req.user_id, completed: { [Op.ne]: -1 } },
+    include: {
+      model: Todo_Order,
+      attributes: ["order"],
+    },
+  })
     .then((todos) => {
       res.status(200).send(todos);
     })

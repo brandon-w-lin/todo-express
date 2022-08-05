@@ -15,6 +15,15 @@ const db = require("./models");
 // For production, will want to use .sync() without any parameters so as to avoid dropping data
 
 // global.db.sequelize.sync();
+
+const config = {
+  headers: {
+    Authorization:
+      "Bearer " +
+      "eyJhbGciOiJIUzI1NiJ9.MQ.F0BNFoIruX9-qETBu_qG_JJpxUVco4uSIBLM29_Myj4",
+  },
+};
+
 const bcrypt = require("bcrypt");
 const junctions = require("./helpers/junctions");
 global.db.sequelize.sync({ force: true }).then(async () => {
@@ -44,7 +53,9 @@ global.db.sequelize.sync({ force: true }).then(async () => {
   await junctions.addRoleToUser(2, 1);
   await junctions.addRoleToUser(3, 1);
 
-  await sequelize_fixtures.loadFile("./seeders/todos.json", global.db);
+  // await sequelize_fixtures.loadFile("./seeders/todos.json", global.db);
+  const todo_seeds = require("./seeders/todos");
+  todo_seeds(config);
 });
 
 // Routers

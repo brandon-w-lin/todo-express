@@ -11,6 +11,10 @@ if (!global.hasOwnProperty("db")) {
     User: require(__dirname + "/user")(sequelize, Sequelize.DataTypes),
     Role: require(__dirname + "/role")(sequelize, Sequelize.DataTypes),
     Todo: require(__dirname + "/todo")(sequelize, Sequelize.DataTypes),
+    Todo_Order: require(__dirname + "/todo_order")(
+      sequelize,
+      Sequelize.DataTypes
+    ),
     User_Role: require(__dirname + "/user_role")(
       sequelize,
       Sequelize.DataTypes
@@ -44,4 +48,11 @@ if (!global.hasOwnProperty("db")) {
 
   global.db.User.hasMany(global.db.Todo);
   global.db.Todo.belongsTo(global.db.User);
+
+  global.db.Todo.hasOne(global.db.Todo_Order, {
+    foreignKey: { name: "todo_id", allowNull: false },
+  });
+  global.db.Todo_Order.belongsTo(global.db.Todo, {
+    foreignKey: { name: "todo_id", allowNull: false },
+  });
 }

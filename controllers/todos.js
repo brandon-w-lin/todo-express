@@ -14,8 +14,9 @@ const index = async (req, res) => {
 const create = (req, res) => {
   const description = req.body.description;
   Todo.create({ completed: 0, description: description, userId: req.user_id })
-    .then((response) => {
-      res.status(200).send(response);
+    .then((todo) => {
+      global.db.Todo_Order.create({ todo_id: todo.id, order: todo.id });
+      res.status(200).send(todo);
     })
     .catch((err) => {
       res.send(err);

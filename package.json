@@ -30,6 +30,7 @@
   "homepage": "https://github.com/brandon-w-lin/todo-express#readme",
   "description": "",
   "devDependencies": {
+    "axios": "^0.27.2",
     "nodemon": "^2.0.19",
     "sequelize-cli": "^6.4.1"
   }

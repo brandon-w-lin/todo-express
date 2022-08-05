@@ -1,0 +1,14 @@
+[
+  {
+    "model": "Role",
+    "data": {
+      "name": "user"
+    }
+  },
+  {
+    "model": "Role",
+    "data": {
+      "name": "admin"
+    }
+  }
+]

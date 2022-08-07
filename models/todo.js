@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Todo.init(
     {
+      order: DataTypes.INTEGER,
       completed: DataTypes.INTEGER,
       description: DataTypes.TEXT,
     },

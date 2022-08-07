@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:8080" }));
+const db = require("./models"); // Initializes models, needed but not used
 
 // view engine setup
 // const path = require("path");
@@ -14,8 +15,8 @@ app.use(cors({ origin: "http://localhost:8080" }));
 // For production, will want to use .sync() without any parameters so as to avoid dropping data
 
 // global.db.sequelize.sync();
-const seed = require("./seeders/seeds");
-seed.seed();
+// const seed = require("./seeders/seeds");
+// seed.seed();
 
 // Routers
 
@@ -27,8 +28,6 @@ const loginRouter = require("./routes/login");
 app.use("/login", loginRouter);
 const roleRouter = require("./routes/roles");
 app.use("/roles", roleRouter);
-const todoOrderRouter = require("./routes/todo_order");
-app.use("/todo_order", todoOrderRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

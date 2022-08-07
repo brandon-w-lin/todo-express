@@ -5,10 +5,10 @@ const { Op } = require("sequelize");
 const index = async (req, res) => {
   Todo.findAll({
     where: { userId: req.user_id, completed: { [Op.ne]: -1 } },
-    include: {
-      model: Todo_Order,
-      attributes: ["order"],
-    },
+    // include: {
+    //   model: Todo_Order,
+    //   attributes: ["order"],
+    // },
   })
     .then((todos) => {
       res.status(200).send(todos);
@@ -22,7 +22,11 @@ const create = (req, res) => {
   const description = req.body.description;
   Todo.create({ completed: 0, description: description, userId: req.user_id })
     .then((todo) => {
-      global.db.Todo_Order.create({ todo_id: todo.id, order: todo.id });
+      // global.db.Todo_Order.create({ todo_id: todo.id, order: todo.id });
+
+      // Set default order equal to the id number
+      todo.set({ order: todo.id || 0 });
+      todo.save();
       res.status(200).send(todo);
     })
     .catch((err) => {
@@ -87,4 +91,24 @@ const destroy = async (req, res) => {
   }
 };
 
-module.exports = { index, create, update, destroy };
+const batchUpdate = (req, res) => {
+  // Accepts req.body = array of id/order pairs.
+  // Ex:
+  // [
+  //   { id: 1, order: 1 },
+  //   { id: 8, order: 2 },
+  //   { id: 7, order: 7 },
+  //   { id: 2, order: 8 }
+  // ]
+
+  // IDS MUST EXIST otherwise it will create new records.
+  Todo.bulkCreate(req.body, { updateOnDuplicate: ["order"] })
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+};
+
+module.exports = { index, create, update, destroy, batchUpdate };

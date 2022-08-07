@@ -9,6 +9,9 @@ router.get("/", authJWT, TodosController.index);
 // CREATE
 router.post("/", authJWT, TodosController.create);
 
+// BATCH UPDATE
+router.patch("/batch", authJWT, TodosController.batchUpdate);
+
 // UPDATE
 router.patch("/:id", authJWT, TodosController.update);
 

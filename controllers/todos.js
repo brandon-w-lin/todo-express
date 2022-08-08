@@ -91,7 +91,7 @@ const destroy = async (req, res) => {
   }
 };
 
-const batchUpdate = (req, res) => {
+const batchUpdateOrder = (req, res) => {
   // Accepts req.body = array of id/order pairs.
   // Ex:
   // [
@@ -111,4 +111,31 @@ const batchUpdate = (req, res) => {
     });
 };
 
-module.exports = { index, create, update, destroy, batchUpdate };
+const batchUpdateDescription = (req, res) => {
+  // Accepts req.body = array of id/order pairs.
+  // Ex:
+  // [
+  //   { id: 1, description: "a" },
+  //   { id: 8, description: "b" },
+  //   { id: 7, description: "c" },
+  //   { id: 2, description: "d" }
+  // ]
+
+  // IDS MUST EXIST otherwise it will create new records.
+  Todo.bulkCreate(req.body, { updateOnDuplicate: ["description"] })
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+};
+
+module.exports = {
+  index,
+  create,
+  update,
+  destroy,
+  batchUpdateOrder,
+  batchUpdateDescription,
+};

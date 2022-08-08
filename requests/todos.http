@@ -34,7 +34,20 @@ DELETE http://localhost:3000/todos/1
 Authorization: Bearer {{jwt}}
 
 
-### BATCH UPDATE
-PATCH http://localhost:3000/todos/batch
+### BATCH UPDATE ORDER
+PATCH http://localhost:3000/todos/batch/order
 Content-Type: application/json
 Authorization: Bearer {{jwt}}
+
+### BATCH UPDATE ORDER
+PATCH http://localhost:3000/todos/batch/description
+Content-Type: application/json
+Authorization: Bearer {{jwt}}
+
+[
+  {"id": 1, "description": "something else"},
+  {"id": 7, "description": "woo hoo"}
+]
+
+
+

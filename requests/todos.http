@@ -51,3 +51,15 @@ Authorization: Bearer {{jwt}}
 
 
 
+### BATCH UPDATE ORDER
+PATCH http://localhost:3000/todos/batch
+Content-Type: application/json
+Authorization: Bearer {{jwt}}
+
+[
+  {"description": "test if this works without providing an ID"},
+  {"description": "test if this works without providing for two things"}
+]
+
+
+

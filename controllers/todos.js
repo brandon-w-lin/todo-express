@@ -130,12 +130,49 @@ const batchUpdateDescription = (req, res) => {
       res.status(500).send(error);
     });
 };
+const batchUpdate = (req, res) => {
+  // Accepts req.body = array of id/order pairs.
+  // Ex:
+  // [
+  //   { id: 1, description: "a" },
+  //   { id: 8, description: "b" },
+  //   { id: 7, description: "c" },
+  //   { id: 2, description: "d" }
+  // ]
+
+  // IDS MUST EXIST otherwise it will create new records.
+
+  formatted_request = req.body.map((todo) => ({
+    id: todo.id,
+    completed: todo.completed || 0,
+    order: todo.order || -1,
+    description: todo.description,
+    userId: req.user_id,
+  }));
+
+  Todo.bulkCreate(formatted_request, {
+    updateOnDuplicate: ["completed", "order", "description"],
+  })
+    .then((todos) => {
+      todos.forEach((todo) => {
+        if (todo.dataValues.order === -1) {
+          todo.set({ order: todo.id || -1 });
+          todo.save();
+        }
+      });
+      res.status(200).send(todos);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+};
 
 module.exports = {
   index,
   create,
   update,
   destroy,
+  batchUpdate,
   batchUpdateOrder,
   batchUpdateDescription,
 };

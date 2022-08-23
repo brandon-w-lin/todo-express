@@ -167,6 +167,8 @@ const batchUpdate = (req, res) => {
     });
 };
 
+const nestTodo = (req, res) => {};
+
 module.exports = {
   index,
   create,

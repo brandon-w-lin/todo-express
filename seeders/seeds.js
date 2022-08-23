@@ -10,7 +10,6 @@ const config = {
 const seed_user = require("./users");
 const login_user = require("./login");
 const sequelize_fixtures = require("sequelize-fixtures");
-const swap_seeds = require("./swaps");
 const create_todo = require("./todos");
 
 function seed() {
@@ -34,25 +33,18 @@ function seed() {
     let jwt;
 
     jwt = await login_user("brandon", "password");
-    await create_todo("Go to the store", jwt);
-    await create_todo("Meet up with ur friends", jwt);
+    await create_todo({ description: "Go to the store" }, jwt);
+    await create_todo({ parent_id: 1, description: "Ham" }, jwt);
+    await create_todo({ parent_id: 1, description: "Cheese" }, jwt);
+    await create_todo({ description: "Meet up with ur friends" }, jwt);
 
     jwt = await login_user("lotte", "password");
-    await create_todo("Study for boards", jwt);
-    await create_todo("Vacuum", jwt);
+    await create_todo({ description: "Study for boards" }, jwt);
+    await create_todo({ description: "Vacuum" }, jwt);
 
     jwt = await login_user("archer", "password");
-    await create_todo("Woof woof", jwt);
-    await create_todo("Bark bark", jwt);
-
-    const swaps = [
-      [
-        { id: 1, order: 1 },
-        { id: 2, order: 2 },
-      ],
-    ];
-
-    swap_seeds(swaps);
+    await create_todo({ description: "Woof woof" }, jwt);
+    await create_todo({ description: "Bark bark" }, jwt);
   });
 }
 

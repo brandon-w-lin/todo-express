@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       order: DataTypes.INTEGER,
       completed: DataTypes.INTEGER,
       description: DataTypes.TEXT,
-      todos: DataTypes.ARRAY(DataTypes.INTEGER),
+      parent_id: DataTypes.INTEGER,
     },
     {
       sequelize,

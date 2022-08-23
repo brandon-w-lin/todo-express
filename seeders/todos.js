@@ -7,31 +7,32 @@ module.exports = (params, jwt) => {
       Authorization: "Bearer " + jwt,
     },
   };
+  console.log(params);
   return new Promise((res, rej) => {
     axios
       .post(
         "http://localhost:3000/todos",
-        { description: params.description },
+        { description: params.description, parent_id: params.parent_id },
         config
       )
       .then(async (response) => {
-        if (params.parent_id != undefined) {
-          // Find parent -> place in parent
-          const parent = await Todo.findByPk(params.parent_id);
-          let newTodos;
-          if (parent.todos) {
-            newTodos = parent.todos.concat(response.data.id);
-          } else {
-            newTodos = [response.data.id];
-          }
-          await parent.set({
-            todos: newTodos,
-          });
-          parent.save().catch((err) => {
-            console.log(err);
-          });
-          console.log(parent.dataValues);
-        }
+        // if (params.parent_id != undefined) {
+        //   // Find parent -> place in parent
+        //   const parent = await Todo.findByPk(params.parent_id);
+        //   let newTodos;
+        //   if (parent.todos) {
+        //     newTodos = parent.todos.concat(response.data.id);
+        //   } else {
+        //     newTodos = [response.data.id];
+        //   }
+        //   await parent.set({
+        //     todos: newTodos,
+        //   });
+        //   parent.save().catch((err) => {
+        //     console.log(err);
+        //   });
+        //   console.log(parent.dataValues);
+        // }
 
         console.log("created todo: " + response.data.id);
         res(response.data);

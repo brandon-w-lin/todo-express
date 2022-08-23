@@ -20,7 +20,13 @@ const index = async (req, res) => {
 
 const create = (req, res) => {
   const description = req.body.description;
-  Todo.create({ completed: 0, description: description, userId: req.user_id })
+  const parent_id = req.body.parent_id;
+  Todo.create({
+    completed: 0,
+    description: description,
+    parent_id: parent_id,
+    userId: req.user_id,
+  })
     .then((todo) => {
       // global.db.Todo_Order.create({ todo_id: todo.id, order: todo.id });
 
@@ -48,9 +54,11 @@ const update = async (req, res) => {
 
     const completed = req.body.completed;
     const description = req.body.description;
+    const parent_id = req.body.parent_id;
     await todo.set({
       completed: completed === 0 ? completed : completed || todo.completed,
       description: description || todo.description,
+      parent_id: parent_id || todo.parent_id,
     });
     todo
       .save()

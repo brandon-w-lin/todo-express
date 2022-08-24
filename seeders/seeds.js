@@ -34,8 +34,8 @@ function seed() {
 
     jwt = await login_user("brandon", "password");
     await create_todo({ description: "Go to the store" }, jwt);
-    await create_todo({ parent_id: 1, description: "Bread" }, jwt);
-    await create_todo({ parent_id: 1, description: "Milk" }, jwt);
+    await create_todo({ todo_id: 1, description: "Bread" }, jwt);
+    await create_todo({ todo_id: 1, description: "Milk" }, jwt);
     await create_todo({ description: "Meet up with ur friends" }, jwt);
 
     jwt = await login_user("lotte", "password");

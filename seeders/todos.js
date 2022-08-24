@@ -12,7 +12,7 @@ module.exports = (params, jwt) => {
     axios
       .post(
         "http://localhost:3000/todos",
-        { description: params.description, parent_id: params.parent_id },
+        { description: params.description, todoid: params.todo_id },
         config
       )
       .then(async (response) => {

@@ -9,6 +9,10 @@ const index = async (req, res) => {
     //   model: Todo_Order,
     //   attributes: ["order"],
     // },
+    include: {
+      model: Todo,
+      as: "todos",
+    },
   })
     .then((todos) => {
       res.status(200).send(todos);
@@ -20,11 +24,11 @@ const index = async (req, res) => {
 
 const create = (req, res) => {
   const description = req.body.description;
-  const parent_id = req.body.parent_id;
+  const todo_id = req.body.todoid;
   Todo.create({
     completed: 0,
     description: description,
-    parent_id: parent_id,
+    todoId: todo_id,
     userId: req.user_id,
   })
     .then((todo) => {
@@ -54,11 +58,11 @@ const update = async (req, res) => {
 
     const completed = req.body.completed;
     const description = req.body.description;
-    const parent_id = req.body.parent_id;
+    const todo_id = req.body.todo_id;
     await todo.set({
       completed: completed === 0 ? completed : completed || todo.completed,
       description: description || todo.description,
-      parent_id: parent_id || todo.parent_id,
+      todoId: todo_id || todo.todoId,
     });
     todo
       .save()

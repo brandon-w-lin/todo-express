@@ -4,7 +4,7 @@ const { Op } = require("sequelize");
 
 const index = async (req, res) => {
   Todo.findAll({
-    where: { userId: req.user_id, completed: { [Op.ne]: -1 } },
+    where: { userId: req.user_id, todoId: null, completed: { [Op.ne]: -1 } },
     // include: {
     //   model: Todo_Order,
     //   attributes: ["order"],

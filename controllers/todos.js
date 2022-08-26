@@ -4,17 +4,17 @@ const { Op } = require("sequelize");
 
 const index = async (req, res) => {
   Todo.findAll({
-    where: { userId: req.user_id, todoId: null, completed: { [Op.ne]: -1 } },
+    where: { userId: req.user_id, completed: { [Op.ne]: -1 } },
     // include: {
     //   model: Todo_Order,
     //   attributes: ["order"],
     // },
-    include: {
-      model: Todo,
-      as: "todos",
-    },
+    // include: {
+    //   model: Todo,
+    // as: "todos",
   })
     .then((todos) => {
+      // console.log(todos);
       res.status(200).send(todos);
     })
     .catch((err) => {
@@ -24,15 +24,15 @@ const index = async (req, res) => {
 
 const create = (req, res) => {
   const description = req.body.description;
-  const todo_id = req.body.todoid;
+  const parent_id = req.body.parent_id;
   Todo.create({
     completed: 0,
     description: description,
-    todoId: todo_id,
+    parent_id: parent_id,
     userId: req.user_id,
   })
     .then((todo) => {
-      // global.db.Todo_Order.create({ todo_id: todo.id, order: todo.id });
+      // global.db.Todo_Order.create({ parent_id: todo.id, order: todo.id });
 
       // Set default order equal to the id number
       todo.set({ order: todo.id || 0 });
@@ -58,11 +58,11 @@ const update = async (req, res) => {
 
     const completed = req.body.completed;
     const description = req.body.description;
-    const todo_id = req.body.todo_id;
+    const parent_id = req.body.parent_id;
     await todo.set({
       completed: completed === 0 ? completed : completed || todo.completed,
       description: description || todo.description,
-      todoId: todo_id || todo.todoId,
+      parent_id: parent_id || todo.parent_id,
     });
     todo
       .save()
@@ -153,17 +153,19 @@ const batchUpdate = (req, res) => {
   // ]
 
   // IDS MUST EXIST otherwise it will create new records.
+  console.log(`Parent_id for ${req.body}: `, req.body);
 
   formatted_request = req.body.map((todo) => ({
     id: todo.id,
     completed: todo.completed || 0,
     order: todo.order || -1,
     description: todo.description,
-    userId: req.user_id,
+    userId: todo.user_id,
+    parent_id: todo.parent_id,
   }));
-
+  //
   Todo.bulkCreate(formatted_request, {
-    updateOnDuplicate: ["completed", "order", "description"],
+    updateOnDuplicate: ["completed", "order", "description", "parent_id"],
   })
     .then((todos) => {
       todos.forEach((todo) => {
@@ -178,8 +180,6 @@ const batchUpdate = (req, res) => {
       res.status(500).send(error);
     });
 };
-
-const nestTodo = (req, res) => {};
 
 module.exports = {
   index,

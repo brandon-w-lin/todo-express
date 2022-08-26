@@ -50,9 +50,17 @@ if (!global.hasOwnProperty("db")) {
   global.db.Todo.belongsTo(global.db.User);
 
   global.db.Todo.hasMany(global.db.Todo, {
-    as: "todos",
-    otherKey: "parent_id",
+    // as: "todos",
+    foreignKey: "parent_id",
   });
+  // global.db.Todo.belongsTo(global.db.Todo, {
+  //   as: "parent",
+  //   foreignKey: "parent_id",
+  // });
+  // global.db.Todo.belongsTo(global.db.Todo, {
+  //   // as: "todos",
+  // });
+
   // global.db.Todo.hasOne(global.db.Todo_Order, {
   //   foreignKey: { name: "todo_id", allowNull: false },
   // });

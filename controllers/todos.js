@@ -36,8 +36,9 @@ const create = (req, res) => {
 
       // Set default order equal to the id number
       todo.set({ order: todo.id || 0 });
-      todo.save();
-      res.status(200).send(todo);
+      todo.save().then(() => {
+        res.status(200).send(todo);
+      });
     })
     .catch((err) => {
       res.send(err);

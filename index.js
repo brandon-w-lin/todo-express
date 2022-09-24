@@ -4,7 +4,7 @@ const cors = require("cors");
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:8080", "https://easy-does-it.netlify.app"],
+    origin: ["*", "http://localhost:8080", "https://easy-does-it.netlify.app"],
   })
 );
 const db = require("./models"); // Initializes models, needed but not used

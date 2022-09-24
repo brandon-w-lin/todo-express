@@ -2,7 +2,9 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:8080" }));
+app.use(
+  cors({ origin: ["http://localhost:8080", "https://easy-does-it.fly.dev"] })
+);
 const db = require("./models"); // Initializes models, needed but not used
 
 // view engine setup
@@ -15,8 +17,8 @@ const db = require("./models"); // Initializes models, needed but not used
 // For production, will want to use .sync() without any parameters so as to avoid dropping data
 
 // global.db.sequelize.sync();
-const seed = require("./seeders/seeds");
-seed.seed();
+// const seed = require("./seeders/seeds");
+// seed.seed();
 
 // Routers
 

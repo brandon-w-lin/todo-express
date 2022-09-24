@@ -36,4 +36,5 @@ app.use("/roles", roleRouter);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`server is listening on port ${PORT}`);
+  console.log("current environment:", process.env.NODE_ENV);
 });

@@ -22,24 +22,32 @@ if (process.env.NODE_ENV === "development") {
     },
   };
 } else if (process.env.NODE_ENV === "production") {
+  // db_options = {
+  //   HOST: "easy-does-it-db.internal",
+  //   USER: "postgres",
+  //   PASSWORD: process.env.DB_PASSWORD,
+  //   DB: "easy-does-it-db",
+  //   DIALECT: "postgres",
+  //   POOL: {
+  //     max: parseInt(120 / os.cpus().length),
+  //     min: 2,
+  //     idle: 10000,
+  //     acquire: 20000,
+  //   },
+  //   PORT: 5432,
+  //   RETRY: {
+  //     match:
+  //       "SequelizeDatabaseError: could not serialize access due to concurrent update",
+  //     max: 3,
+  //   },
+  // };
   db_options = {
-    HOST: "easy-does-it-db.internal",
-    USER: "postgres",
-    PASSWORD: process.env.DB_PASSWORD,
-    DB: "easy-does-it-db",
+    HOST: process.env.PGHOST,
+    USER: process.env.PGUSER,
+    PASSWORD: process.env.PGPASSWORD,
+    DB: process.env.PGDATABASE,
     DIALECT: "postgres",
-    POOL: {
-      max: parseInt(120 / os.cpus().length),
-      min: 2,
-      idle: 10000,
-      acquire: 20000,
-    },
-    PORT: 5432,
-    RETRY: {
-      match:
-        "SequelizeDatabaseError: could not serialize access due to concurrent update",
-      max: 3,
-    },
+    PORT: process.env.PGPORT,
   };
 }
 

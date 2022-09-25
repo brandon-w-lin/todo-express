@@ -19,12 +19,12 @@ const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
   dialect: config.DIALECT,
   logging: null,
   port: config.PORT,
-  pool: config.POOL,
-  retry: config.RETRY,
+  // pool: config.POOL,
+  // retry: config.RETRY,
 });
 
 // Test connection
-sequelize
+postgresql: sequelize
   .authenticate()
   .then(() => console.log("Database is connected"))
   .catch((error) => console.log("Error: " + error));
